@@ -1,12 +1,10 @@
 import { Button } from "./components/ui/button"
-
+import Login from "./components/Login"
 function App() {
   return (
-    <div className=" flex flex-col items-center justify-center h-screen">
-      <Button>
-        PlacementPathPilot
-      </Button>
-    </div>
+    <main>
+      <Login />
+    </main>
   )
 }
 
