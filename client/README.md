@@ -34,6 +34,80 @@ npm run dev
 - `src/components/ui`: UI components used throughout the application.
 - `src/lib/utils.js`: Utility functions.
 
+## Features and Functions
+
+### User Authentication
+
+The application provides user authentication features including registration and login.
+
+#### Register User
+
+- **Functionality:** Allows new users to create an account.
+- **Example:**
+    1. Navigate to the login page.
+    2. Fill in the registration form with name, email, and password.
+    3. Click the "Signup" button.
+
+#### Login User
+
+- **Functionality:** Allows existing users to log in to their account.
+- **Example:**
+    1. Navigate to the login page.
+    2. Fill in the login form with email and password.
+    3. Click the "Login" button.
+
+### UI Components
+
+The application uses various UI components to enhance the user experience.
+
+#### Button Component
+
+- **Functionality:** Renders a button with different variants and sizes.
+- **Example:**
+    ```jsx
+    import { Button } from "@/components/ui/button";
+
+    <Button variant="primary" size="lg">Click Me</Button>
+    ```
+
+#### Card Component
+
+- **Functionality:** Renders a card layout with header, content, and footer sections.
+- **Example:**
+    ```jsx
+    import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
+
+    <Card>
+      <CardHeader>
+        <CardTitle>Card Title</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p>Card content goes here.</p>
+      </CardContent>
+      <CardFooter>
+        <Button>Action</Button>
+      </CardFooter>
+    </Card>
+    ```
+
+### Utility Functions
+
+The application includes utility functions to simplify common tasks.
+
+#### `cn` Function
+
+- **Functionality:** Combines class names using `clsx` and `tailwind-merge`.
+- **Example:**
+    ```javascript
+    import { cn } from "@/lib/utils";
+
+    const className = cn("bg-primary", "text-white");
+    ```
+
+## Tailwind CSS
+
+This project uses Tailwind CSS for styling. The configuration can be found in `tailwind.config.js`.
+
 ## Example Usage
 
 ### Login Page
@@ -51,44 +125,3 @@ The login page allows users to register and login.
 1. Navigate to the login page.
 2. Fill in the login form with email and password.
 3. Click the "Login" button.
-
-## Tailwind CSS
-
-This project uses Tailwind CSS for styling. The configuration can be found in `tailwind.config.js`.
-
-## Example Components
-
-### Button Component
-
-```jsx
-import { Button } from "@/components/ui/button";
-
-<Button variant="primary" size="lg">Click Me</Button>
-```
-
-### Card Component
-
-```jsx
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
-
-<Card>
-  <CardHeader>
-    <CardTitle>Card Title</CardTitle>
-  </CardHeader>
-  <CardContent>
-    <p>Card content goes here.</p>
-  </CardContent>
-  <CardFooter>
-    <Button>Action</Button>
-  </CardFooter>
-</Card>
-```
-
-## Updates in the Client Folder
-
-- **Implemented Redux Toolkit for state management**: Added `authSlice.js` for authentication state management.
-- **API Integration**: Added `authApi.js`, `courseApi.js`, `courseProgressApi.js`, and `purchaseApi.js` for handling API requests.
-- **UI Components**: Created reusable UI components such as `Button`, `Card`, `Input`, `Label`, `Tabs`, and `Toaster`.
-- **Routing**: Integrated React Router for navigation.
-- **Styling**: Utilized Tailwind CSS for styling and added custom configurations in `index.css`.
-- **State Management**: Configured Redux store in `store.js` and combined reducers in `rootReducer.js`.
