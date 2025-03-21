@@ -83,3 +83,12 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/componen
   </CardFooter>
 </Card>
 ```
+
+## Updates in the Client Folder
+
+- **Implemented Redux Toolkit for state management**: Added `authSlice.js` for authentication state management.
+- **API Integration**: Added `authApi.js`, `courseApi.js`, `courseProgressApi.js`, and `purchaseApi.js` for handling API requests.
+- **UI Components**: Created reusable UI components such as `Button`, `Card`, `Input`, `Label`, `Tabs`, and `Toaster`.
+- **Routing**: Integrated React Router for navigation.
+- **Styling**: Utilized Tailwind CSS for styling and added custom configurations in `index.css`.
+- **State Management**: Configured Redux store in `store.js` and combined reducers in `rootReducer.js`.

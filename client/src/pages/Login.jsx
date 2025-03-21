@@ -71,7 +71,7 @@ const Login = () => {
     }
     if(loginIsSuccess && loginData){
       toast.success(loginData.message || "Login successful.");
-      navigate("/");
+ 
     }
     if(loginError){ 
       toast.error(loginError?.data?.message || "login Failed");
@@ -83,7 +83,6 @@ const Login = () => {
     registerData,
     loginError,
     registerError,
-    navigate
   ]);
 
   return (
@@ -193,9 +192,7 @@ const Login = () => {
               >
                 {loginIsLoading ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
-
-                    wait
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait
                   </>
                 ) : (
                   "Login"
