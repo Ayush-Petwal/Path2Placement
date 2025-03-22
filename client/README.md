@@ -1,48 +1,65 @@
-# PlacementPathPilot Client
+# Path2Placement Client
 
 ## Overview
 
-This client is built using React and Vite. It handles the frontend functionalities of the PlacementPathPilot application.
-
-## Setup
-
-1. **Clone the repository:**
-    ```bash
-    git clone <repository_url>
-    cd PlacementPathPilot/client
-    ```
-
-2. **Install dependencies:**
-    ```bash
-    npm install
-    ```
-
-3. **Ensure the backend server is running and the `.env` file is correctly configured.**
-
-## Running the Client
-
-To start the client, run:
-```bash
-npm run dev
-```
+This client is built using React and Vite. It handles the frontend functionalities of the Path2Placement application, a platform designed to help students prepare for and succeed in job placements.
 
 ## Project Structure
 
 - `src/main.jsx`: Entry point of the client application.
-- `src/App.jsx`: Main application component.
-- `src/pages/login.jsx`: Login and Signup page.
+- `src/App.jsx`: Main application component with routing configuration.
+- `src/layout/MainLayout.jsx`: Layout component that wraps all pages with the Navbar.
+- `src/pages/Login.jsx`: Login and Signup page.
+- `src/pages/student/HeroSection.jsx`: Landing page hero section.
+- `src/components/Navbar.jsx`: Navigation component with responsive design.
 - `src/components/ui`: UI components used throughout the application.
+- `src/features/api`: API service definitions using RTK Query.
+- `src/features/authSlice.js`: Redux slice for authentication state management.
 - `src/lib/utils.js`: Utility functions.
+
+## Application Architecture
+
+### Routing
+
+The application uses React Router v6 for navigation:
+
+```jsx
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      {
+        path: "/",
+        element: <HeroSection />
+      },
+      {
+        path: "login",
+        element: <Login />
+      }
+      // Additional routes will be added as the application grows
+    ],
+  },
+]);
+```
+
+### State Management
+
+The application uses Redux Toolkit for state management:
+
+- **Authentication Slice**: Manages user authentication state
+- **RTK Query**: Handles API interactions with automatic caching and request management
 
 ## Features and Functions
 
 ### User Authentication
 
-The application provides user authentication features including registration and login.
+The application provides comprehensive user authentication features.
 
 #### Register User
 
 - **Functionality:** Allows new users to create an account.
+- **Implementation:** Uses `useRegisterUserMutation` hook from RTK Query.
 - **Example:**
     1. Navigate to the login page.
     2. Fill in the registration form with name, email, and password.
@@ -51,77 +68,44 @@ The application provides user authentication features including registration and
 #### Login User
 
 - **Functionality:** Allows existing users to log in to their account.
+- **Implementation:** Uses `useLoginUserMutation` hook and updates Redux state.
 - **Example:**
     1. Navigate to the login page.
     2. Fill in the login form with email and password.
     3. Click the "Login" button.
 
-### UI Components
+#### Logout User
 
-The application uses various UI components to enhance the user experience.
+- **Functionality:** Allows users to logout from their account.
+- **Implementation:** Uses `useLogoutUserMutation` hook and clears Redux state.
+- **Access:** Available in the user dropdown menu in the navbar.
 
-#### Button Component
+#### Load User Profile
 
-- **Functionality:** Renders a button with different variants and sizes.
-- **Example:**
-    ```jsx
-    import { Button } from "@/components/ui/button";
+- **Functionality:** Automatically loads user profile on application start.
+- **Implementation:** Uses `useLoadUserQuery` hook to fetch user data.
 
-    <Button variant="primary" size="lg">Click Me</Button>
-    ```
+### Navigation
 
-#### Card Component
+The application features a responsive navigation system:
 
-- **Functionality:** Renders a card layout with header, content, and footer sections.
-- **Example:**
-    ```jsx
-    import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
+- **Desktop**: Full navigation bar with user dropdown and authentication options
+- **Mobile**: Sheet-based slide-in navigation menu with appropriate options
 
-    <Card>
-      <CardHeader>
-        <CardTitle>Card Title</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p>Card content goes here.</p>
-      </CardContent>
-      <CardFooter>
-        <Button>Action</Button>
-      </CardFooter>
-    </Card>
-    ```
+### Role-Based Features
 
-### Utility Functions
+The application provides different features based on user roles:
 
-The application includes utility functions to simplify common tasks.
+- **Student**: Access to learning materials and profile management
+- **Instructor**: Additional access to dashboard and administrative features
 
-#### `cn` Function
+### Dark Mode Support
 
-- **Functionality:** Combines class names using `clsx` and `tailwind-merge`.
-- **Example:**
-    ```javascript
-    import { cn } from "@/lib/utils";
+The application supports dark mode toggle with persistent state.
+## Future Enhancements
 
-    const className = cn("bg-primary", "text-white");
-    ```
-
-## Tailwind CSS
-
-This project uses Tailwind CSS for styling. The configuration can be found in `tailwind.config.js`.
-
-## Example Usage
-
-### Login Page
-
-The login page allows users to register and login.
-
-#### Register User
-
-1. Navigate to the login page.
-2. Fill in the registration form with name, email, and password.
-3. Click the "Signup" button.
-
-#### Login User
-
-1. Navigate to the login page.
-2. Fill in the login form with email and password.
-3. Click the "Login" button.
+- Student dashboard for tracking progress
+- Course browsing and enrollment functionality
+- Advanced profile management
+- Placement tracking and analytics
+- Company integration for direct recruitment

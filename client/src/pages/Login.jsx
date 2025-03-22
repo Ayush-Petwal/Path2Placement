@@ -67,14 +67,14 @@ const Login = () => {
       toast.success(registerData.message || "Signup successful.")
     }
     if(registerError){
-      toast.error(registerError?.data?.message || "Signup Failed");
+      toast.error(registerError.data.message || "Signup Failed");
     }
     if(loginIsSuccess && loginData){
       toast.success(loginData.message || "Login successful.");
- 
+      navigate("/");
     }
     if(loginError){ 
-      toast.error(loginError?.data?.message || "login Failed");
+      toast.error(loginError.data.message || "login Failed");
     }
   }, [
     loginIsLoading,
@@ -119,7 +119,7 @@ const Login = () => {
                   name="email"
                   value={signupInput.email}
                   onChange={(e) => changeInputHandler(e, "signup")}
-                  placeholder="Eg. abc@gmail.com"
+                  placeholder="Eg. patel@gmail.com"
                   required="true"
                 />
               </div>
@@ -186,13 +186,13 @@ const Login = () => {
             </CardContent>
             <CardFooter>
               <Button
-            
-            disabled={loginIsLoading}
+                disabled={loginIsLoading}
                 onClick={() => handleRegistration("login")}
               >
                 {loginIsLoading ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
+                    wait
                   </>
                 ) : (
                   "Login"

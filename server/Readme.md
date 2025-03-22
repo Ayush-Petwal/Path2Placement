@@ -1,30 +1,8 @@
-# PlacementPathPilot Server
+# Path2Placement Server
 
 ## Overview
 
 This server is built using Node.js, Express, and MongoDB. It handles user authentication, registration, and other backend functionalities.
-
-## Setup
-
-1. **Clone the repository:**
-    ```bash
-    git clone <repository_url>
-    cd PlacementPathPilot/server
-    ```
-
-2. **Install dependencies:**
-    ```bash
-    npm install
-    ```
-
-
-
-## Running the Server
-
-To start the server, run:
-```bash
-npm run dev
-```
 
 ## API Endpoints
 
