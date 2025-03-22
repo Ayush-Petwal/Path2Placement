@@ -77,3 +77,11 @@ The application follows a component-based architecture with clear separation of 
 - **Custom Hooks**: Extract reusable logic
 - **API Services**: Centralize API communication
 - **Context Providers**: Provide theme and authentication context
+
+### Recent Updates
+
+- **Dark Mode Support**: Added dark mode toggle and theme management.
+- **Enhanced UI Components**: Updated UI components for better user experience.
+- **Improved State Management**: Refined Redux slices and RTK Query integration.
+- **New Pages**: Added new pages for course search, course progress, and admin functionalities.
+- **Responsive Design Enhancements**: Improved mobile and desktop navigation.
