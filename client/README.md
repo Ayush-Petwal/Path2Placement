@@ -2,110 +2,78 @@
 
 ## Overview
 
-This client is built using React and Vite. It handles the frontend functionalities of the Path2Placement application, a platform designed to help students prepare for and succeed in job placements.
+The client-side application for Path2Placement is built using React and Vite, providing a modern and responsive user interface for students and instructors.
 
-## Project Structure
+## Architecture
 
-- `src/main.jsx`: Entry point of the client application.
-- `src/App.jsx`: Main application component with routing configuration.
-- `src/layout/MainLayout.jsx`: Layout component that wraps all pages with the Navbar.
-- `src/pages/Login.jsx`: Login and Signup page.
-- `src/pages/student/HeroSection.jsx`: Landing page hero section.
-- `src/components/Navbar.jsx`: Navigation component with responsive design.
-- `src/components/ui`: UI components used throughout the application.
-- `src/features/api`: API service definitions using RTK Query.
-- `src/features/authSlice.js`: Redux slice for authentication state management.
-- `src/lib/utils.js`: Utility functions.
+### Core Technologies
 
-## Application Architecture
+- **React**: Frontend library for building user interfaces
+- **Vite**: Build tool and development server
+- **React Router**: Handles client-side routing
+- **Redux Toolkit**: State management solution
+- **RTK Query**: Data fetching and caching layer
+- **Tailwind CSS**: Utility-first CSS framework
 
-### Routing
+### Project Structure
 
-The application uses React Router v6 for navigation:
+- **src/main.jsx**: Application entry point
+- **src/App.jsx**: Main component with routing configuration
+- **src/layout/**: Layout components used across pages
+- **src/pages/**: Page components organized by user role
+- **src/components/**: Reusable UI components
+- **src/features/**: Redux slices and API services
+- **src/app/**: Redux store configuration
+- **src/lib/**: Utility functions and helpers
 
-```jsx
-const appRouter = createBrowserRouter([
-  {
-    path: "/",
-    element: <MainLayout />,
-    children: [
-      {
-        path: "/",
-        element: <HeroSection />
-      },
-      {
-        path: "login",
-        element: <Login />
-      }
-      // Additional routes will be added as the application grows
-    ],
-  },
-]);
-```
+### Data Flow
+
+1. **User Interaction**: User interacts with the UI
+2. **API Call**: Interaction triggers an RTK Query hook call
+3. **State Update**: API response updates Redux store
+4. **UI Update**: Component re-renders with new data
+
+### Authentication Flow
+
+1. User logs in via login form
+2. Credentials are sent to the server via RTK Query
+3. On successful authentication:
+   - JWT token is stored as HTTP-only cookie
+   - User data is stored in Redux state
+4. Protected routes check Redux state for authentication status
+
+### Routing Structure
+
+- **Public Routes**: Home page, login/registration
+- **Protected Routes**: Profile, course details, my learning
+- **Role-Based Routes**: Admin dashboard for instructors
+
+### Responsive Design
+
+- **Mobile-First Approach**: UI components designed for mobile first
+- **Adaptive Components**: Changing layouts based on screen size
+- **Mobile Navigation**: Sheet-based navigation for small screens
+- **Desktop Navigation**: Full navigation bar for larger screens
 
 ### State Management
 
-The application uses Redux Toolkit for state management:
+- **Auth State**: Manages user authentication status
+- **User Data**: Stores current user information
+- **Course Data**: Manages course listing and details
+- **UI State**: Controls UI elements like theme preference
 
-- **Authentication Slice**: Manages user authentication state
-- **RTK Query**: Handles API interactions with automatic caching and request management
+### API Integration
 
-## Features and Functions
+- **Auth API**: Handles user registration, login, profile management
+- **Course API**: Manages course listing, details, and enrollment
+- **Media Handling**: Supports file uploads for profile pictures
 
-### User Authentication
+## Development Approach
 
-The application provides comprehensive user authentication features.
+The application follows a component-based architecture with clear separation of concerns:
 
-#### Register User
-
-- **Functionality:** Allows new users to create an account.
-- **Implementation:** Uses `useRegisterUserMutation` hook from RTK Query.
-- **Example:**
-    1. Navigate to the login page.
-    2. Fill in the registration form with name, email, and password.
-    3. Click the "Signup" button.
-
-#### Login User
-
-- **Functionality:** Allows existing users to log in to their account.
-- **Implementation:** Uses `useLoginUserMutation` hook and updates Redux state.
-- **Example:**
-    1. Navigate to the login page.
-    2. Fill in the login form with email and password.
-    3. Click the "Login" button.
-
-#### Logout User
-
-- **Functionality:** Allows users to logout from their account.
-- **Implementation:** Uses `useLogoutUserMutation` hook and clears Redux state.
-- **Access:** Available in the user dropdown menu in the navbar.
-
-#### Load User Profile
-
-- **Functionality:** Automatically loads user profile on application start.
-- **Implementation:** Uses `useLoadUserQuery` hook to fetch user data.
-
-### Navigation
-
-The application features a responsive navigation system:
-
-- **Desktop**: Full navigation bar with user dropdown and authentication options
-- **Mobile**: Sheet-based slide-in navigation menu with appropriate options
-
-### Role-Based Features
-
-The application provides different features based on user roles:
-
-- **Student**: Access to learning materials and profile management
-- **Instructor**: Additional access to dashboard and administrative features
-
-### Dark Mode Support
-
-The application supports dark mode toggle with persistent state.
-## Future Enhancements
-
-- Student dashboard for tracking progress
-- Course browsing and enrollment functionality
-- Advanced profile management
-- Placement tracking and analytics
-- Company integration for direct recruitment
+- **Presentation Components**: Focus on UI rendering
+- **Container Components**: Handle data fetching and state
+- **Custom Hooks**: Extract reusable logic
+- **API Services**: Centralize API communication
+- **Context Providers**: Provide theme and authentication context
