@@ -245,6 +245,74 @@ This server is built using Node.js, Express, and MongoDB. It handles user authen
     }
     ```
 
+### Purchase Routes
+
+#### Create Checkout Session
+
+- **Endpoint:** `/api/v1/purchase/checkout/create-checkout-session`
+- **Method:** `POST`
+- **Request Body:**
+    ```json
+    {
+        "courseId": "course_id"
+    }
+    ```
+- **Response:**
+    ```json
+    {
+        "success": true,
+        "url": "https://checkout.stripe.com/pay/cs_test_a1b2c3d4e5"
+    }
+    ```
+
+#### Get Course Detail with Purchase Status
+
+- **Endpoint:** `/api/v1/purchase/course/:courseId/detail-with-status`
+- **Method:** `GET`
+- **Response:**
+    ```json
+    {
+        "course": {
+            "_id": "course_id",
+            "courseTitle": "Fullstack Development",
+            "category": "Web Development",
+            "creator": {
+                "name": "John Doe",
+                "photoUrl": "https://example.com/image.jpg"
+            },
+            "lectures": []
+        },
+        "purchased": true
+    }
+    ```
+
+#### Get All Purchased Courses
+
+- **Endpoint:** `/api/v1/purchase`
+- **Method:** `GET`
+- **Response:**
+    ```json
+    {
+        "purchasedCourse": [
+            {
+                "_id": "purchase_id",
+                "courseId": {
+                    "_id": "course_id",
+                    "courseTitle": "Fullstack Development",
+                    "category": "Web Development",
+                    "creator": {
+                        "name": "John Doe",
+                        "photoUrl": "https://example.com/image.jpg"
+                    }
+                },
+                "userId": "user_id",
+                "amount": 1000,
+                "status": "completed"
+            }
+        ]
+    }
+    ```
+
 ## Project Structure
 
 - `index.js`: Entry point of the server.
@@ -252,11 +320,14 @@ This server is built using Node.js, Express, and MongoDB. It handles user authen
 - `models/user.model.js`: User model schema.
 - `models/course.model.js`: Course model schema.
 - `models/lecture.model.js`: Lecture model schema for course content.
+- `models/coursePurchase.model.js`: Course purchase model schema.
 - `routes/user.route.js`: User-related routes.
 - `routes/course.route.js`: Course-related routes.
 - `routes/media.route.js`: Media upload and management routes.
+- `routes/purchaseCourse.route.js`: Course purchase-related routes.
 - `controllers/user.controller.js`: User-related controllers.
 - `controllers/course.controller.js`: Course-related controllers.
+- `controllers/coursePurchase.controller.js`: Course purchase-related controllers.
 - `middlewares/isAuthenticated.js`: Authentication middleware to protect routes.
 - `utils/generateToken.js`: Utility function to generate JWT tokens.
 - `utils/cloudinary.js`: Utilities for Cloudinary media management.
@@ -358,4 +429,29 @@ curl -X PATCH "http://localhost:8080/api/v1/course/course_id?publish=true"
 curl -X POST http://localhost:8080/api/v1/media/upload-video \
 -H "Cookie: token=your-jwt-token" \
 -F "file=@/path/to/video.mp4"
+```
+
+### Create Checkout Session Example
+
+```bash
+curl -X POST http://localhost:8080/api/v1/purchase/checkout/create-checkout-session \
+-H "Cookie: token=your-jwt-token" \
+-H "Content-Type: application/json" \
+-d '{
+    "courseId": "course_id"
+}'
+```
+
+### Get Course Detail with Purchase Status Example
+
+```bash
+curl -X GET http://localhost:8080/api/v1/purchase/course/course_id/detail-with-status \
+-H "Cookie: token=your-jwt-token"
+```
+
+### Get All Purchased Courses Example
+
+```bash
+curl -X GET http://localhost:8080/api/v1/purchase \
+-H "Cookie: token=your-jwt-token"
 ```
