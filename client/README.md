@@ -66,7 +66,34 @@ The client-side application for Path2Placement is built using React and Vite, pr
 
 - **Auth API**: Handles user registration, login, profile management
 - **Course API**: Manages course listing, details, and enrollment
-- **Media Handling**: Supports file uploads for profile pictures
+- **Media Handling**: Supports file uploads for profile pictures and lecture videos
+
+## Lecture Management System
+
+The application includes a comprehensive lecture management system that allows instructors to:
+
+1. **Create Lectures**: Add new lectures to courses with titles and descriptions
+2. **Edit Lectures**: Update lecture details including title, video content, and preview settings
+3. **Remove Lectures**: Delete unwanted lectures from courses
+4. **Video Management**:
+   - Upload lecture videos with progress tracking
+   - Set preview status (free/premium) for lectures
+   - Store video information including URLs and public IDs
+
+### Lecture Components
+
+- **CreateLecture**: Interface for adding new lectures to a course
+- **EditLecture**: Page for modifying existing lecture content
+- **LectureTab**: Core component handling lecture editing functionality
+- **Lecture**: Display component for individual lecture items
+
+### Lecture Workflow
+
+1. Instructor navigates to course lecture management
+2. Creates lecture with basic information (title)
+3. Edits lecture to add video content
+4. Sets lecture visibility preferences (free/premium)
+5. Saves changes which are immediately reflected in the course
 
 ## Development Approach
 
@@ -85,3 +112,4 @@ The application follows a component-based architecture with clear separation of 
 - **Improved State Management**: Refined Redux slices and RTK Query integration.
 - **New Pages**: Added new pages for course search, course progress, and admin functionalities.
 - **Responsive Design Enhancements**: Improved mobile and desktop navigation.
+- **Lecture Management**: Added comprehensive lecture creation and management functionality.

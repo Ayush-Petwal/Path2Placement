@@ -224,14 +224,37 @@ This server is built using Node.js, Express, and MongoDB. It handles user authen
     }
     ```
 
+### Media Routes
+
+#### Upload Video
+
+- **Endpoint:** `/api/v1/media/upload-video`
+- **Method:** `POST`
+- **Content Type:** `multipart/form-data`
+- **Request Body:**
+    - `file`: Video file to upload
+- **Response:**
+    ```json
+    {
+        "success": true,
+        "message": "File uploaded successfully.",
+        "data": {
+            "public_id": "media_id",
+            "secure_url": "https://cloudinary.com/video.mp4"
+        }
+    }
+    ```
+
 ## Project Structure
 
 - `index.js`: Entry point of the server.
 - `database/db.js`: Database connection setup.
 - `models/user.model.js`: User model schema.
 - `models/course.model.js`: Course model schema.
+- `models/lecture.model.js`: Lecture model schema for course content.
 - `routes/user.route.js`: User-related routes.
 - `routes/course.route.js`: Course-related routes.
+- `routes/media.route.js`: Media upload and management routes.
 - `controllers/user.controller.js`: User-related controllers.
 - `controllers/course.controller.js`: Course-related controllers.
 - `middlewares/isAuthenticated.js`: Authentication middleware to protect routes.
@@ -327,4 +350,12 @@ curl -X PUT http://localhost:8080/api/v1/course/course_id \
 
 ```bash
 curl -X PATCH "http://localhost:8080/api/v1/course/course_id?publish=true"
+```
+
+### Upload Video Example
+
+```bash
+curl -X POST http://localhost:8080/api/v1/media/upload-video \
+-H "Cookie: token=your-jwt-token" \
+-F "file=@/path/to/video.mp4"
 ```
