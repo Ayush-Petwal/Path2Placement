@@ -1,457 +1,124 @@
-# Path2Placement Server
+# PlacementPathPilot Server
 
 ## Overview
 
-This server is built using Node.js, Express, and MongoDB. It handles user authentication, registration, profile management, and other backend functionalities.
+This server is built using Node.js and Express. It handles the backend functionalities of the PlacementPathPilot application, including user authentication, course management, media uploads, and payment processing.
 
-## API Endpoints
+## Setup
 
-### User Routes
-
-#### Register User
-
-- **Endpoint:** `/api/v1/user/register`
-- **Method:** `POST`
-- **Request Body:**
-    ```json
-    {
-        "name": "John Doe",
-        "email": "john@example.com",
-        "password": "password123"
-    }
-    ```
-- **Response:**
-    ```json
-    {
-        "success": true,
-        "message": "Account created successfully."
-    }
+1. **Clone the repository:**
+    ```bash
+    git clone <repository_url>
+    cd PlacementPathPilot/server
     ```
 
-#### Login User
-
-- **Endpoint:** `/api/v1/user/login`
-- **Method:** `POST`
-- **Request Body:**
-    ```json
-    {
-        "email": "john@example.com",
-        "password": "password123"
-    }
-    ```
-- **Response:**
-    ```json
-    {
-        "success": true,
-        "message": "Welcome back John Doe",
-        "user": {
-            "_id": "user_id",
-            "name": "John Doe",
-            "email": "john@example.com",
-            "photoUrl": ""
-        }
-    }
+2. **Install dependencies:**
+    ```bash
+    npm install
     ```
 
-#### Logout User
+3. **Create a `.env` file in the root directory and configure the following environment variables:**
+    ```properties
+    MONGO_URI=<your_mongodb_connection_string>
+    PORT=8080
+    SECRET_KEY=<your_secret_key>
+    FRONTEND_URL=http://localhost:5173
 
-- **Endpoint:** `/api/v1/user/logout`
-- **Method:** `GET`
-- **Response:**
-    ```json
-    {
-        "success": true,
-        "message": "Logged out successfully."
-    }
+    # Cloudinary setup
+    CLOUDINARY_NAME=<your_cloudinary_name>
+    CLOUDINARY_API_KEY=<your_cloudinary_api_key>
+    CLOUDINARY_API_SECRET=<your_cloudinary_api_secret>
+
+    # Stripe setup
+    STRIPE_SECRET_KEY=<your_stripe_secret_key>
+    STRIPE_PUBLISHABLE_KEY=<your_stripe_publishable_key>
     ```
 
-#### Get User Profile
-
-- **Endpoint:** `/api/v1/user/profile`
-- **Method:** `GET`
-- **Authentication:** Required (JWT token in cookie)
-- **Response:**
-    ```json
-    {
-        "success": true,
-        "user": {
-            "_id": "user_id",
-            "name": "John Doe",
-            "email": "john@example.com",
-            "photoUrl": "https://example.com/image.jpg",
-            "role": "student",
-            "enrolledCourses": []
-        }
-    }
-    ```
-
-#### Update User Profile
-
-- **Endpoint:** `/api/v1/user/profile/update`
-- **Method:** `PUT`
-- **Authentication:** Required (JWT token in cookie)
-- **Content Type:** `multipart/form-data`
-- **Request Body:**
-    - `name`: User's new name (text)
-    - `profilePhoto`: User's profile image (file)
-- **Response:**
-    ```json
-    {
-        "success": true,
-        "message": "Profile updated successfully.",
-        "user": {
-            "_id": "user_id",
-            "name": "Updated Name",
-            "email": "john@example.com",
-            "photoUrl": "https://cloudinary.com/updated-image.jpg",
-            "role": "student"
-        }
-    }
-    ```
-
-### Course Routes
-
-#### Create Course
-
-- **Endpoint:** `/api/v1/course`
-- **Method:** `POST`
-- **Request Body:**
-    ```json
-    {
-        "courseTitle": "Fullstack Development",
-        "category": "Web Development"
-    }
-    ```
-- **Response:**
-    ```json
-    {
-        "course": {
-            "_id": "course_id",
-            "courseTitle": "Fullstack Development",
-            "category": "Web Development",
-            "creator": "user_id"
-        },
-        "message": "Course created."
-    }
-    ```
-
-#### Search Course
-
-- **Endpoint:** `/api/v1/course/search`
-- **Method:** `GET`
-- **Query Parameters:**
-    - `query`: Search term
-    - `categories`: Array of categories
-    - `sortByPrice`: Sorting order (low/high)
-- **Response:**
-    ```json
-    {
-        "success": true,
-        "courses": [
-            {
-                "_id": "course_id",
-                "courseTitle": "Fullstack Development",
-                "category": "Web Development",
-                "creator": {
-                    "name": "John Doe",
-                    "photoUrl": "https://example.com/image.jpg"
-                }
-            }
-        ]
-    }
-    ```
-
-#### Get Published Courses
-
-- **Endpoint:** `/api/v1/course/published-courses`
-- **Method:** `GET`
-- **Response:**
-    ```json
-    {
-        "courses": [
-            {
-                "_id": "course_id",
-                "courseTitle": "Fullstack Development",
-                "category": "Web Development",
-                "creator": {
-                    "name": "John Doe",
-                    "photoUrl": "https://example.com/image.jpg"
-                }
-            }
-        ]
-    }
-    ```
-
-#### Edit Course
-
-- **Endpoint:** `/api/v1/course/:courseId`
-- **Method:** `PUT`
-- **Request Body:**
-    - `courseTitle`: Updated course title
-    - `subTitle`: Updated course subtitle
-    - `description`: Updated course description
-    - `category`: Updated course category
-    - `courseLevel`: Updated course level
-    - `coursePrice`: Updated course price
-    - `courseThumbnail`: Updated course thumbnail (file)
-- **Response:**
-    ```json
-    {
-        "course": {
-            "_id": "course_id",
-            "courseTitle": "Updated Fullstack Development",
-            "subTitle": "Updated subtitle",
-            "description": "Updated description",
-            "category": "Updated category",
-            "courseLevel": "Updated level",
-            "coursePrice": "Updated price",
-            "courseThumbnail": "https://cloudinary.com/updated-thumbnail.jpg"
-        },
-        "message": "Course updated successfully."
-    }
-    ```
-
-#### Toggle Publish Course
-
-- **Endpoint:** `/api/v1/course/:courseId`
-- **Method:** `PATCH`
-- **Query Parameters:**
-    - `publish`: `true` or `false`
-- **Response:**
-    ```json
-    {
-        "message": "Course is Published"
-    }
-    ```
-
-### Media Routes
-
-#### Upload Video
-
-- **Endpoint:** `/api/v1/media/upload-video`
-- **Method:** `POST`
-- **Content Type:** `multipart/form-data`
-- **Request Body:**
-    - `file`: Video file to upload
-- **Response:**
-    ```json
-    {
-        "success": true,
-        "message": "File uploaded successfully.",
-        "data": {
-            "public_id": "media_id",
-            "secure_url": "https://cloudinary.com/video.mp4"
-        }
-    }
-    ```
-
-### Purchase Routes
-
-#### Create Checkout Session
-
-- **Endpoint:** `/api/v1/purchase/checkout/create-checkout-session`
-- **Method:** `POST`
-- **Request Body:**
-    ```json
-    {
-        "courseId": "course_id"
-    }
-    ```
-- **Response:**
-    ```json
-    {
-        "success": true,
-        "url": "https://checkout.stripe.com/pay/cs_test_a1b2c3d4e5"
-    }
-    ```
-
-#### Get Course Detail with Purchase Status
-
-- **Endpoint:** `/api/v1/purchase/course/:courseId/detail-with-status`
-- **Method:** `GET`
-- **Response:**
-    ```json
-    {
-        "course": {
-            "_id": "course_id",
-            "courseTitle": "Fullstack Development",
-            "category": "Web Development",
-            "creator": {
-                "name": "John Doe",
-                "photoUrl": "https://example.com/image.jpg"
-            },
-            "lectures": []
-        },
-        "purchased": true
-    }
-    ```
-
-#### Get All Purchased Courses
-
-- **Endpoint:** `/api/v1/purchase`
-- **Method:** `GET`
-- **Response:**
-    ```json
-    {
-        "purchasedCourse": [
-            {
-                "_id": "purchase_id",
-                "courseId": {
-                    "_id": "course_id",
-                    "courseTitle": "Fullstack Development",
-                    "category": "Web Development",
-                    "creator": {
-                        "name": "John Doe",
-                        "photoUrl": "https://example.com/image.jpg"
-                    }
-                },
-                "userId": "user_id",
-                "amount": 1000,
-                "status": "completed"
-            }
-        ]
-    }
+4. **Start the server:**
+    ```bash
+    npm run dev
     ```
 
 ## Project Structure
 
-- `index.js`: Entry point of the server.
-- `database/db.js`: Database connection setup.
-- `models/user.model.js`: User model schema.
-- `models/course.model.js`: Course model schema.
-- `models/lecture.model.js`: Lecture model schema for course content.
-- `models/coursePurchase.model.js`: Course purchase model schema.
-- `routes/user.route.js`: User-related routes.
-- `routes/course.route.js`: Course-related routes.
-- `routes/media.route.js`: Media upload and management routes.
-- `routes/purchaseCourse.route.js`: Course purchase-related routes.
-- `controllers/user.controller.js`: User-related controllers.
-- `controllers/course.controller.js`: Course-related controllers.
-- `controllers/coursePurchase.controller.js`: Course purchase-related controllers.
-- `middlewares/isAuthenticated.js`: Authentication middleware to protect routes.
-- `utils/generateToken.js`: Utility function to generate JWT tokens.
-- `utils/cloudinary.js`: Utilities for Cloudinary media management.
-- `utils/multer.js`: Configuration for file upload handling.
+- `index.js`: Entry point of the server application.
+- `database/db.js`: MongoDB connection setup.
+- `routes`: Contains all the route files for different functionalities.
+- `controllers`: Contains the logic for handling requests and responses.
+- `models`: Mongoose models for MongoDB collections.
+- `utils`: Utility functions for tasks like file uploads and token generation.
+- `middlewares`: Middleware functions for authentication and other purposes.
 
-## Media Handling
+## Features
 
-The application uses:
-- **Multer**: For handling multipart/form-data and file uploads
-- **Cloudinary**: For cloud-based media storage and management
+### User Management
 
-### Media Operations
+- **Register User**: Create a new user account.
+- **Login User**: Authenticate a user and generate a token.
+- **Logout User**: Clear the authentication token.
+- **Get User Profile**: Fetch the profile of the logged-in user.
+- **Update Profile**: Update user details and profile photo.
 
-- **Upload Media**: Files are first saved temporarily with Multer, then uploaded to Cloudinary
-- **Delete Media**: When a user updates their profile photo, the old one is automatically deleted from Cloudinary
-- **Media Types**: The system supports various media types including images and videos
+### Course Management
 
-## Authentication Flow
+- **Create Course**: Instructors can create new courses.
+- **Edit Course**: Update course details and thumbnail.
+- **Search Courses**: Search for published courses by title, category, or price.
+- **Get Published Courses**: Fetch all published courses.
+- **Manage Lectures**: Add, edit, or remove lectures in a course.
 
-1. User registers or logs in
-2. Server generates a JWT token and sets it as an HTTP-only cookie
-3. For protected routes, the `isAuthenticated` middleware verifies the token
-4. On logout, the token cookie is cleared
+### Media Uploads
 
-## Example Usage
+- **Cloudinary Integration**: Upload and manage media files (images and videos) using Cloudinary.
+- **Multer Integration**: Handle file uploads from the client.
 
-### Register User Example
+### Payment Processing
 
-```bash
-curl -X POST http://localhost:8080/api/v1/user/register \
--H "Content-Type: application/json" \
--d '{
-    "name": "John Doe",
-    "email": "john@example.com",
-    "password": "password123"
-}'
-```
+- **Stripe Integration**: Handle payments for course purchases.
+- **Create Checkout Session**: Generate a Stripe checkout session for purchasing courses.
+- **Stripe Webhooks**: Handle payment success events and update course access.
 
-### Login User Example
+### Course Progress
 
-```bash
-curl -X POST http://localhost:8080/api/v1/user/login \
--H "Content-Type: application/json" \
--d '{
-    "email": "john@example.com",
-    "password": "password123"
-}'
-```
+- **Track Progress**: Track lecture completion status for enrolled courses.
+- **Mark Course as Completed**: Allow users to mark a course as completed.
 
-### Update Profile Example
+## Example API Endpoints
 
-```bash
-curl -X PUT http://localhost:8080/api/v1/user/profile/update \
--H "Cookie: token=your-jwt-token" \
--F "name=Updated Name" \
--F "profilePhoto=@/path/to/image.jpg"
-```
+### User Routes
 
-### Create Course Example
+- `POST /api/v1/user/register`: Register a new user.
+- `POST /api/v1/user/login`: Login a user.
+- `GET /api/v1/user/logout`: Logout a user.
+- `GET /api/v1/user/profile`: Get the logged-in user's profile.
+- `PUT /api/v1/user/profile/update`: Update the user's profile.
 
-```bash
-curl -X POST http://localhost:8080/api/v1/course \
--H "Content-Type: application/json" \
--d '{
-    "courseTitle": "Fullstack Development",
-    "category": "Web Development"
-}'
-```
+### Course Routes
 
-### Search Course Example
+- `POST /api/v1/course`: Create a new course.
+- `GET /api/v1/course/search`: Search for courses.
+- `PUT /api/v1/course/:courseId`: Edit a course.
+- `POST /api/v1/course/:courseId/lecture`: Add a lecture to a course.
 
-```bash
-curl -X GET "http://localhost:8080/api/v1/course/search?query=fullstack&categories=Web%20Development&sortByPrice=low"
-```
+### Media Routes
 
-### Edit Course Example
+- `POST /api/v1/media/upload-video`: Upload a video file.
 
-```bash
-curl -X PUT http://localhost:8080/api/v1/course/course_id \
--H "Cookie: token=your-jwt-token" \
--F "courseTitle=Updated Fullstack Development" \
--F "subTitle=Updated subtitle" \
--F "description=Updated description" \
--F "category=Updated category" \
--F "courseLevel=Updated level" \
--F "coursePrice=Updated price" \
--F "courseThumbnail=@/path/to/thumbnail.jpg"
-```
+### Purchase Routes
 
-### Toggle Publish Course Example
+- `POST /api/v1/purchase/checkout/create-checkout-session`: Create a Stripe checkout session.
+- `GET /api/v1/purchase/course/:courseId/detail-with-status`: Get course details with purchase status.
 
-```bash
-curl -X PATCH "http://localhost:8080/api/v1/course/course_id?publish=true"
-```
+### Course Progress Routes
 
-### Upload Video Example
+- `GET /api/v1/progress/:courseId`: Get course progress.
+- `POST /api/v1/progress/:courseId/lecture/:lectureId/view`: Mark a lecture as viewed.
 
-```bash
-curl -X POST http://localhost:8080/api/v1/media/upload-video \
--H "Cookie: token=your-jwt-token" \
--F "file=@/path/to/video.mp4"
-```
+## Updates in the Server Folder
 
-### Create Checkout Session Example
-
-```bash
-curl -X POST http://localhost:8080/api/v1/purchase/checkout/create-checkout-session \
--H "Cookie: token=your-jwt-token" \
--H "Content-Type: application/json" \
--d '{
-    "courseId": "course_id"
-}'
-```
-
-### Get Course Detail with Purchase Status Example
-
-```bash
-curl -X GET http://localhost:8080/api/v1/purchase/course/course_id/detail-with-status \
--H "Cookie: token=your-jwt-token"
-```
-
-### Get All Purchased Courses Example
-
-```bash
-curl -X GET http://localhost:8080/api/v1/purchase \
--H "Cookie: token=your-jwt-token"
-```
+- **Cloudinary Integration**: Added utilities for uploading and deleting media files.
+- **Multer Integration**: Configured Multer for handling file uploads.
+- **Stripe Integration**: Added payment processing and webhook handling.
+- **User Profile Management**: Added functionality to update user profiles with profile photos.
+- **Course Management**: Enhanced course and lecture management features.
+- **Course Progress Tracking**: Added APIs to track and update course progress.
