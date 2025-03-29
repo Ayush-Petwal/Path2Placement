@@ -2,7 +2,7 @@
 
 ## Overview
 
-This server is built using Node.js and Express. It handles the backend functionalities of the PlacementPathPilot application, including user authentication, course management, media uploads, and payment processing.
+This server is built using Node.js and Express. It handles the backend functionalities of the PlacementPathPilot application, including user authentication, course management, media uploads, payment processing, and course progress tracking.
 
 ## Setup
 
@@ -82,6 +82,7 @@ This server is built using Node.js and Express. It handles the backend functiona
 
 - **Track Progress**: Track lecture completion status for enrolled courses.
 - **Mark Course as Completed**: Allow users to mark a course as completed.
+- **Mark Course as Incomplete**: Reset course progress to incomplete.
 
 ## Example API Endpoints
 
@@ -113,6 +114,8 @@ This server is built using Node.js and Express. It handles the backend functiona
 
 - `GET /api/v1/progress/:courseId`: Get course progress.
 - `POST /api/v1/progress/:courseId/lecture/:lectureId/view`: Mark a lecture as viewed.
+- `POST /api/v1/progress/:courseId/complete`: Mark a course as completed.
+- `POST /api/v1/progress/:courseId/incomplete`: Mark a course as incomplete.
 
 ## Updates in the Server Folder
 
@@ -121,4 +124,6 @@ This server is built using Node.js and Express. It handles the backend functiona
 - **Stripe Integration**: Added payment processing and webhook handling.
 - **User Profile Management**: Added functionality to update user profiles with profile photos.
 - **Course Management**: Enhanced course and lecture management features.
-- **Course Progress Tracking**: Added APIs to track and update course progress.
+- **Course Progress Tracking**: Added APIs to track and update course progress, including marking courses as completed or incomplete.
+- **Error Handling**: Improved error handling across all controllers.
+- **CORS Configuration**: Updated CORS settings to allow requests from the frontend URL.
