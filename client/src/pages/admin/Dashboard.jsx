@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGetPurchasedCoursesQuery } from "@/features/api/purchaseApi";
 import React from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-
+// recharts is used to show the course prices in a line chart
 const Dashboard = () => {
 
   const {data, isSuccess, isError, isLoading} = useGetPurchasedCoursesQuery();

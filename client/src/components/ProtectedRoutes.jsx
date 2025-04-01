@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux"
 import { Navigate } from "react-router-dom";
-
+// this file check authization and role of the user so that we can protect the routes
 export const ProtectedRoute = ({children}) => {
     const {isAuthenticated} = useSelector(store=>store.auth);
 

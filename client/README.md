@@ -1,123 +1,115 @@
-# PlacementPathPilot Client
+# Path2Placement Client
 
 ## Overview
 
-This client is built using React and Vite. It handles the frontend functionalities of the PlacementPathPilot application.
+The client-side application for Path2Placement is built using React and Vite, providing a modern and responsive user interface for students and instructors.
 
-## Setup
+## Architecture
 
-1. **Clone the repository:**
-    ```bash
-    git clone <repository_url>
-    cd PlacementPathPilot/client
-    ```
+### Core Technologies
 
-2. **Install dependencies:**
-    ```bash
-    npm install
-    ```
+- **React**: Frontend library for building user interfaces
+- **Vite**: Build tool and development server
+- **React Router**: Handles client-side routing
+- **Redux Toolkit**: State management solution
+- **RTK Query**: Data fetching and caching layer
+- **Tailwind CSS**: Utility-first CSS framework
 
-3. **Ensure the backend server is running and the `.env` file is correctly configured.**
+### Project Structure
 
-## Running the Client
+- **src/main.jsx**: Application entry point
+- **src/App.jsx**: Main component with routing configuration
+- **src/layout/**: Layout components used across pages
+- **src/pages/**: Page components organized by user role
+- **src/components/**: Reusable UI components
+- **src/features/**: Redux slices and API services
+- **src/app/**: Redux store configuration
+- **src/lib/**: Utility functions and helpers
 
-To start the client, run:
-```bash
-npm run dev
-```
+### Data Flow
 
-## Project Structure
+1. **User Interaction**: User interacts with the UI
+2. **API Call**: Interaction triggers an RTK Query hook call
+3. **State Update**: API response updates Redux store
+4. **UI Update**: Component re-renders with new data
 
-- `src/main.jsx`: Entry point of the client application.
-- `src/App.jsx`: Main application component with routing setup.
-- `src/pages`: Contains all the pages, including `Login`, `Profile`, `CourseProgress`, and admin-related pages.
-- `src/components`: Reusable UI components such as `Button`, `Card`, `Tabs`, `Input`, and more.
-- `src/features`: Contains Redux slices and API integrations using Redux Toolkit Query.
-- `src/lib/utils.js`: Utility functions.
-- `src/index.css`: Tailwind CSS configuration and custom styles.
+### Authentication Flow
 
-## Example Usage
+1. User logs in via login form
+2. Credentials are sent to the server via RTK Query
+3. On successful authentication:
+   - JWT token is stored as HTTP-only cookie
+   - User data is stored in Redux state
+4. Protected routes check Redux state for authentication status
 
-### Login Page
+### Routing Structure
 
-The login page allows users to register and login.
+- **Public Routes**: Home page, login/registration
+- **Protected Routes**: Profile, course details, my learning
+- **Role-Based Routes**: Admin dashboard for instructors
 
-#### Register User
+### Responsive Design
 
-1. Navigate to the login page.
-2. Fill in the registration form with name, email, and password.
-3. Click the "Signup" button.
+- **Mobile-First Approach**: UI components designed for mobile first
+- **Adaptive Components**: Changing layouts based on screen size
+- **Mobile Navigation**: Sheet-based navigation for small screens
+- **Desktop Navigation**: Full navigation bar for larger screens
 
-#### Login User
+### State Management
 
-1. Navigate to the login page.
-2. Fill in the login form with email and password.
-3. Click the "Login" button.
+- **Auth State**: Manages user authentication status
+- **User Data**: Stores current user information
+- **Course Data**: Manages course listing and details
+- **UI State**: Controls UI elements like theme preference
 
-### Profile Page
+### API Integration
 
-The profile page allows users to view and update their profile.
+- **Auth API**: Handles user registration, login, profile management
+- **Course API**: Manages course listing, details, and enrollment
+- **Media Handling**: Supports file uploads for profile pictures and lecture videos
 
-#### Update Profile
+## Lecture Management System
 
-1. Navigate to the profile page.
-2. Click the "Edit Profile" button.
-3. Update the name or upload a new profile photo.
-4. Click "Save Changes" to update the profile.
+The application includes a comprehensive lecture management system that allows instructors to:
 
-### Course Progress Page
+1. **Create Lectures**: Add new lectures to courses with titles and descriptions
+2. **Edit Lectures**: Update lecture details including title, video content, and preview settings
+3. **Remove Lectures**: Delete unwanted lectures from courses
+4. **Video Management**:
+   - Upload lecture videos with progress tracking
+   - Set preview status (free/premium) for lectures
+   - Store video information including URLs and public IDs
 
-The course progress page allows users to track their progress in a course.
+### Lecture Components
 
-#### Mark Lecture as Viewed
+- **CreateLecture**: Interface for adding new lectures to a course
+- **EditLecture**: Page for modifying existing lecture content
+- **LectureTab**: Core component handling lecture editing functionality
+- **Lecture**: Display component for individual lecture items
 
-1. Select a lecture from the sidebar.
-2. Watch the lecture video to mark it as viewed.
+### Lecture Workflow
 
-#### Mark Course as Completed
+1. Instructor navigates to course lecture management
+2. Creates lecture with basic information (title)
+3. Edits lecture to add video content
+4. Sets lecture visibility preferences (free/premium)
+5. Saves changes which are immediately reflected in the course
 
-1. Click the "Mark as completed" button to mark the course as completed.
+## Development Approach
 
-## Tailwind CSS
+The application follows a component-based architecture with clear separation of concerns:
 
-This project uses Tailwind CSS for styling. The configuration can be found in `index.css`.
+- **Presentation Components**: Focus on UI rendering
+- **Container Components**: Handle data fetching and state
+- **Custom Hooks**: Extract reusable logic
+- **API Services**: Centralize API communication
+- **Context Providers**: Provide theme and authentication context
 
-## Example Components
+### Recent Updates
 
-### Button Component
-
-```jsx
-import { Button } from "@/components/ui/button";
-
-<Button variant="primary" size="lg">Click Me</Button>
-```
-
-### Card Component
-
-```jsx
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
-
-<Card>
-  <CardHeader>
-    <CardTitle>Card Title</CardTitle>
-  </CardHeader>
-  <CardContent>
-    <p>Card content goes here.</p>
-  </CardContent>
-  <CardFooter>
-    <Button>Action</Button>
-  </CardFooter>
-</Card>
-```
-
-## Updates in the Client Folder
-
-- **Routing**: Added `App.jsx` with routing for student and admin pages using React Router.
-- **State Management**: Configured Redux Toolkit with slices for authentication, courses, and course progress.
-- **API Integration**: Added API integrations for user authentication, course management, and course progress tracking using Redux Toolkit Query.
-- **UI Components**: Created reusable components such as `Button`, `Card`, `Tabs`, `Input`, `Label`, and `Toaster`.
-- **Profile Page**: Added functionality to view and update user profiles.
-- **Course Progress Page**: Added functionality to track lecture progress and mark courses as completed.
-- **Styling**: Utilized Tailwind CSS for styling and added custom configurations in `index.css`.
-- **Dynamic Theme Support**: Integrated theme switching using `ThemeProvider`.
-- **Protected Routes**: Added route protection for authenticated users and admin users.
+- **Dark Mode Support**: Added dark mode toggle and theme management.
+- **Enhanced UI Components**: Updated UI components for better user experience.
+- **Improved State Management**: Refined Redux slices and RTK Query integration.
+- **New Pages**: Added new pages for course search, course progress, and admin functionalities.
+- **Responsive Design Enhancements**: Improved mobile and desktop navigation.
+- **Lecture Management**: Added comprehensive lecture creation and management functionality.
