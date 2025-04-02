@@ -137,6 +137,7 @@ export const stripeWebhook = async (req, res) => {
   }
   res.status(200).send();
 };
+
 export const getCourseDetailWithPurchaseStatus = async (req, res) => {
   try {
     const { courseId } = req.params;
